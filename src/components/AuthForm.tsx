@@ -50,29 +50,45 @@ export default function AuthForm() {
         // Await the login action to get the result in case of error
         const result = await login(formData);
 
-        // If result is defined, it means an error occurred and redirect didn't happen
+        // If result is defined, it means an error occurred OR a redirect is signaled
         if (result) {
-           if (result.requiresVerification) {
-             // Specific toast for unverified email
-             toast.warning("Email Verification Required", {
-               description: result.message,
-               duration: 8000,
-             });
-           } else {
-             // Generic error toast for other login failures
-             toast.error("Login Failed", {
-               description: result.message,
-             });
-           }
+          // console.log('Login action returned:', result); // Removed previous log
+          if (result.requiresVerification) {
+            // Specific toast for unverified email
+            toast.warning("Email Verification Required", {
+              description: result.message,
+              duration: 8000,
+            });
+          } else if (result.message === 'NEXT_REDIRECT') {
+             // Login was successful, redirect is happening via the action.
+             // Optionally, show a brief success message before redirect happens.
+             // toast.success("Login Successful!"); // You can uncomment this if needed
+             console.log("Login successful, redirect initiated by action.");
+          } else {
+            // Generic error toast for other login failures
+            toast.error("Login Failed", {
+              description: result.message,
+            });
+          }
+        } else {
+          // If result is undefined/null/falsy, login was successful without issues.
+          toast.success("Login Successful!");
         }
-        // If result is undefined, the action successfully redirected, no client action needed
 
       } catch (e) {
-        // This catch block handles unexpected errors during the action call itself
-        console.error("Unexpected login error:", e);
-        toast.error("Login Failed", {
-           description: (e instanceof Error) ? e.message : "An unexpected error occurred.",
-        });
+        // Check if the error is the specific NEXT_REDIRECT signal
+        if (e instanceof Error && e.message === 'NEXT_REDIRECT') {
+          // This is expected during a successful redirect, do nothing or log success
+          //console.log("Login successful, redirect initiated by action.");
+          toast.success("Login Successful!");
+          // Don't show an error toast here
+        } else {
+          // Handle genuine unexpected errors
+          // console.error("Unexpected login error:", e);
+          toast.error("Login Failed", {
+             description: (e instanceof Error) ? e.message : "An unexpected error occurred.",
+          });
+        }
       }
     }
 
