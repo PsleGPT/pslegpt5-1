@@ -1,3 +1,5 @@
+"use client"; // Added directive because this component uses hooks
+
 import React, { useState, useEffect } from 'react';
 
 // Define the structure of a message object

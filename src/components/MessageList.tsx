@@ -1,3 +1,5 @@
+"use client"; // Added directive because this component uses hooks
+
 import React, { useRef, useEffect } from 'react';
 import MessageItem from './MessageItem';
 
