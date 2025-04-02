@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 // This is a Server Component by default
 export default function ProfilePage() {
@@ -13,7 +14,7 @@ export default function ProfilePage() {
       <p>This is the user profile page.</p>
       {/* TODO: Display user profile information here */}
       {/* <pre>{JSON.stringify({ user, profile, error }, null, 2)}</pre> */}
-      <p><a href="/" className="text-blue-500 hover:underline">Back to Chat</a></p>
+      <p><Link href="/" className="text-blue-500 hover:underline">Back to Chat</Link></p>
     </div>
   );
 } 

@@ -41,7 +41,7 @@ export default function AuthForm() {
             description: result.message,
           });
         }
-      } catch (e) {
+      } catch /* (e) */ {
         toast.error("An unexpected error occurred during sign up.");
       }
     } else {

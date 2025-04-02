@@ -21,12 +21,6 @@ export default function UserMenu() {
     };
   }, [menuRef]);
 
-  const handleLogout = async () => {
-    setIsOpen(false); // Close menu before logging out
-    await logout();
-    // Redirect is handled by the server action
-  };
-
   return (
     <div className="relative" ref={menuRef}>
       {/* Avatar Button */}
